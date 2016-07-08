@@ -24,12 +24,10 @@ public class User extends Human {
         }
     }
     public boolean checkSum(){
-        int count = 0;
         userSum = 0;
         for(int i = 1; i < myCards.size(); i = i+2){
-            if(myCards.get(i) == 1 && count == 0){ 
+            if(myCards.get(i) == 1 &&  userSum < 11){ 
                 userSum = userSum + 11;
-                count = 1;
             }else if(myCards.get(i) > 10){
                 userSum = userSum + 10;
             }else{

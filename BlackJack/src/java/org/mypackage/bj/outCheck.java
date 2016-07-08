@@ -38,12 +38,14 @@ public class outCheck extends HttpServlet {
         ArrayList<Integer> dealerArray = new ArrayList<Integer>();
         ArrayList<Integer> userArray = new ArrayList<Integer>();
         int dealerSum = 0, userSum = 0;
-
+        
+        //ディーラーのカード処理
         dealer.setCard(dealer.deal());
         while(dealer.checkSum()){
             dealer.setCard(dealer.hit());
         }
         
+        //ユーザーのカード処理
         user.setCard(dealer.deal());
         while(user.checkSum()){
             user.setCard(dealer.hit());
@@ -62,22 +64,22 @@ public class outCheck extends HttpServlet {
                 if(((i+2)%2)==0){
                     switch(user.myCards.get(i)){
                         case 0:
-                            out.println("Heart");
+                            out.print("Heart");
                             break;
                         case 1:
-                            out.println("Dia");
+                            out.print("Dia");
                             break;
                         case 2:
                             out.print("Spade");
                             break;
                         case 3:
-                            out.println("Culb");
+                            out.print("Culb");
                             break;
                         case 4:
-                            out.println("Culb");
+                            out.print("Culb");
                             break;
                         default:
-                            out.println("errer");
+                            out.print("errer");
                     }
                 } else {
                     out.println(user.myCards.get(i) + " ");
@@ -90,19 +92,22 @@ public class outCheck extends HttpServlet {
                 if(((i+2)%2)==0){
                     switch(dealer.myCards.get(i)){
                         case 0:
-                            out.println("Heart");
+                            out.print("Heart");
                             break;
                         case 1:
-                            out.println("Dia");
+                            out.print("Dia");
                             break;
                         case 2:
                             out.print("Spade");
                             break;
                         case 3:
-                            out.println("Culb");
+                            out.print("Culb");
+                            break;
+                        case 4:
+                            out.print("Culb");
                             break;
                         default:
-                            out.println("errer");
+                            out.print("errer");
                     }
                 } else {
                     out.println(dealer.myCards.get(i) + " ");
@@ -120,7 +125,6 @@ public class outCheck extends HttpServlet {
             }else{
                 out.println("ユーザーの勝利です。");
             }
-            out.println(dealer.cards.toString());
             out.println("<body>");
             out.println("<h1>Servlet outCheck at " + request.getContextPath() + "</h1>");
             out.println("</body>");
