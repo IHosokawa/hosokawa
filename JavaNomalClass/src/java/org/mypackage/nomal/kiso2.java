@@ -3,21 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.mypackage.kiso3_5_6;
+package org.mypackage.nomal;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.RequestDispatcher;
 
 /**
  *
  * @author You
  */
-public class UserData2 extends HttpServlet {
+public class kiso2 extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,18 +33,11 @@ public class UserData2 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        //現在の日時を「年-月-日 時:分:秒」で表示してください。
+        Date datanow = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat ("yyyy年MM月dd日 hh時:mm分:ss秒");
+        String datanows = sdf.format(datanow);
         
-        final String result = "WEB-INF/jsp/UserData2Result.jsp";
-        
-        String indexS = request.getParameter("bangou");
-        //Integer indexI = Integer.parseInt(indexS);
-        
-        ResultUserData2 data = new ResultUserData2();
-        data.setIndex(indexS);
-        request.setAttribute("Data",data);
-        
-        RequestDispatcher rd = request.getRequestDispatcher(result);
-        rd.forward(request,response);
         
         
         try {
@@ -51,10 +45,10 @@ public class UserData2 extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserData2</title>");            
+            out.println("<title>Servlet kiso2</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserData2 at " + request.getContextPath() + "</h1>");
+            out.println(datanows);
             out.println("</body>");
             out.println("</html>");
         } finally {

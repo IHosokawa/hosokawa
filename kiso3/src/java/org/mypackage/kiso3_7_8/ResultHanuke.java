@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.mypackage.kiso3_5_6;
+package org.mypackage.kiso3_7_8;
 
 import java.io.Serializable;
 
@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author You
  */
-public class ResultUserData2 implements Serializable {
+public class ResultHanuke implements Serializable {
 
         // ユーザー情報
     private String UserData[] = {"1","田中","2000.01.01","東京",
@@ -21,7 +21,7 @@ public class ResultUserData2 implements Serializable {
         // 該当IDのユーザー情報格納変数
     private String[] OutData = new String[3];
     
-    public ResultUserData2(){}
+    public ResultHanuke(){}
     
     public void setIndex (String index){
         // ユーザー情報よりIDを検索
@@ -37,7 +37,7 @@ public class ResultUserData2 implements Serializable {
     }
     
     public String[] getIndex(){
-        return OutData;
+        return UserData;
     }
     
 }

@@ -1,9 +1,10 @@
+package org.mypackage.Object1;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.mypackage.kiso3_5_6;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,13 +12,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.RequestDispatcher;
 
 /**
  *
  * @author You
  */
-public class UserData2 extends HttpServlet {
+public class Object1_1_2 extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,17 +33,25 @@ public class UserData2 extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
-        final String result = "WEB-INF/jsp/UserData2Result.jsp";
+        //課題1
+        //人、家族、友達、仕事、名前、趣味、料理、服、音楽、乗り物、国
         
-        String indexS = request.getParameter("bangou");
-        //Integer indexI = Integer.parseInt(indexS);
+        //課題2
+        //人、料理、音楽、乗り物、国
         
-        ResultUserData2 data = new ResultUserData2();
-        data.setIndex(indexS);
-        request.setAttribute("Data",data);
+        Object1_3 test = new Object1_3();
+        test.method();
+        out.print(test.a+ " " + test.b);
         
-        RequestDispatcher rd = request.getRequestDispatcher(result);
-        rd.forward(request,response);
+        test.purint();
+        
+        Object1_4 test2 = new Object1_4();
+        test2.clean();
+        
+        //out.println("<br>" + test2.a + test2.b);
+        
+        
+        
         
         
         try {
@@ -51,10 +59,10 @@ public class UserData2 extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserData2</title>");            
+            out.println("<title>Servlet Object1_1_2_3_4</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserData2 at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Object1_1_2_3_4 at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         } finally {

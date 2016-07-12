@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.mypackage.kiso3_5_6;
+package org.mypackage.nomal;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,13 +11,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import java.io.*;
+
 
 /**
  *
  * @author You
  */
-public class UserData2 extends HttpServlet {
+public class kiso8 extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,30 +35,55 @@ public class UserData2 extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
-        final String result = "WEB-INF/jsp/UserData2Result.jsp";
+        ServletContext app = this.getServletContext();
+        /*
+        File jibun = new File(app.getRealPath("jiko.txt"));
+        FileWriter fw = new FileWriter(jibun,false);
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.newLine();
+        bw.write("てすと");
+        bw.newLine();
+        bw.write("test");
         
-        String indexS = request.getParameter("bangou");
-        //Integer indexI = Integer.parseInt(indexS);
         
-        ResultUserData2 data = new ResultUserData2();
-        data.setIndex(indexS);
-        request.setAttribute("Data",data);
         
-        RequestDispatcher rd = request.getRequestDispatcher(result);
-        rd.forward(request,response);
+        FileWriter fw = new FileWriter(app.getRealPath("jiko.txt"),true);
+        PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
         
+        pw.println("test");
+        pw.println("てすと");
+        
+        pw.close();
+        */
+        
+        File jibun = new File ("C:/Users/You/Desktop/hosokawa/JavaNomalClass/src/java/org/mypackage/nomal/jiko.txt");
+        FileWriter fw = new FileWriter(jibun,true);
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write("test");
+        bw.newLine();
+        bw.write("てすと");
+        bw.newLine();
+        bw.close();
         
         try {
+            out.print(app.getRealPath("jiko.txt"));
             /* TODO output your page here. You may use following sample code. */
+            /*
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserData2</title>");            
+            out.println("<title>Servlet kiso8</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserData2 at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            FileWriter fw = new FileWriter(app.getRealPath("jiko.txt"),false);
+            PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
+            fw.write("ttttttt");
+
+            pw.println("test");
+            pw.println("てすと");
+
+            pw.close();
+            */
         } finally {
             out.close();
         }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.mypackage.kiso3_5_6;
+package org.mypackage.kiso3_7_8;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,11 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.RequestDispatcher;
 
+
 /**
  *
  * @author You
  */
-public class UserData2 extends HttpServlet {
+public class hanuke extends HttpServlet {
+    public Integer limit = 2;
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,29 +35,26 @@ public class UserData2 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+
+        final String result = "WEB-INF/jsp/HanukeResult.jsp";
+        //String indexS = request.getParameter("bangou");
         
-        final String result = "WEB-INF/jsp/UserData2Result.jsp";
-        
-        String indexS = request.getParameter("bangou");
-        //Integer indexI = Integer.parseInt(indexS);
-        
-        ResultUserData2 data = new ResultUserData2();
-        data.setIndex(indexS);
+        ResultHanuke data = new ResultHanuke();
+        data.setIndex("1");//indexS);
         request.setAttribute("Data",data);
         
         RequestDispatcher rd = request.getRequestDispatcher(result);
         rd.forward(request,response);
-        
-        
+
         try {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserData2</title>");            
+            out.println("<title>Servlet hanuke</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserData2 at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet hanuke at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         } finally {

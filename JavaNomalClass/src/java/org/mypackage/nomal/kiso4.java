@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.mypackage.kiso3_5_6;
+package org.mypackage.nomal;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,13 +11,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.RequestDispatcher;
+import java.util.*;
+import java.text.*;
 
 /**
  *
  * @author You
  */
-public class UserData2 extends HttpServlet {
+public class kiso4 extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,28 +34,22 @@ public class UserData2 extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
-        final String result = "WEB-INF/jsp/UserData2Result.jsp";
+        Calendar cal = Calendar.getInstance();
         
-        String indexS = request.getParameter("bangou");
-        //Integer indexI = Integer.parseInt(indexS);
-        
-        ResultUserData2 data = new ResultUserData2();
-        data.setIndex(indexS);
-        request.setAttribute("Data",data);
-        
-        RequestDispatcher rd = request.getRequestDispatcher(result);
-        rd.forward(request,response);
-        
+        cal.set(2015,1,1,0,0,0);
+        long a = cal.getTime().getTime();
+        cal.set(2015,12,31,23,59,59);
+        long b = cal.getTime().getTime();
         
         try {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserData2</title>");            
+            out.println("<title>Servlet kiso4</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserData2 at " + request.getContextPath() + "</h1>");
+            out.println(b-a);
             out.println("</body>");
             out.println("</html>");
         } finally {

@@ -16,6 +16,10 @@
         <servlet-name>UserData2</servlet-name>
         <servlet-class>org.mypackage.kiso3_5.UserData2</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>hanuke</servlet-name>
+        <servlet-class>org.mypackage.kiso3_7_8.hanuke</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>YouserDataMain</servlet-name>
         <url-pattern>/YouserDataMain</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>UserData2</servlet-name>
         <url-pattern>/UserData2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>hanuke</servlet-name>
+        <url-pattern>/hanuke</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

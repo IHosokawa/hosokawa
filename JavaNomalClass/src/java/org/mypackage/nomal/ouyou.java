@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.mypackage.kiso3_5_6;
+package org.mypackage.nomal;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,13 +11,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.RequestDispatcher;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import javax.servlet.ServletContext;
+import java.util.*;
+//import java.lang.Math;
 
 /**
  *
  * @author You
  */
-public class UserData2 extends HttpServlet {
+public class ouyou extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,28 +37,53 @@ public class UserData2 extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
-        final String result = "WEB-INF/jsp/UserData2Result.jsp";
         
-        String indexS = request.getParameter("bangou");
-        //Integer indexI = Integer.parseInt(indexS);
+        int a = 5,b = 2;
         
-        ResultUserData2 data = new ResultUserData2();
-        data.setIndex(indexS);
-        request.setAttribute("Data",data);
         
-        RequestDispatcher rd = request.getRequestDispatcher(result);
-        rd.forward(request,response);
+        ServletContext app = this.getServletContext();
+        File logs = new File(app.getRealPath("log.txt"));
         
+        Date nowtime = new Date();
+        
+        FileWriter startfw = new FileWriter(logs,true);
+        BufferedWriter startbw = new BufferedWriter(startfw);
+        SimpleDateFormat sdt = new SimpleDateFormat("dd日hh時mm分ss秒");
+        
+        startbw.write("<br>" + sdt.format(nowtime) + " 開始<br>");
+        
+        
+        startbw.write("int a = " + a + ",b = " + b + "<br>");
+        
+        startbw.write("abs(a)" + Math.abs(a) +"<br>");
+        startbw.write("max(a, b)" + Math.max(a, b) + "<br>");
+        startbw.write("random()" + Math.random() + "<br>");
+        startbw.close();
+        
+        
+        FileWriter endfw = new FileWriter(logs,true);
+        BufferedWriter endbw = new BufferedWriter(endfw);
+        
+        endbw.write(sdt.format(nowtime) + "終了");
+        endbw.close();
+        
+        FileReader fr = new FileReader(logs);
+        BufferedReader br = new BufferedReader(fr);
+        String str;
+        while((str = br.readLine())!=null){
+            out.print(str);
+        }
+        br.close();
         
         try {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserData2</title>");            
+            out.println("<title>Servlet ouyou</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserData2 at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ouyou at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         } finally {

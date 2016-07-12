@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.mypackage.kiso3_5_6;
+package org.mypackage.nomal;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,13 +11,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.RequestDispatcher;
+import java.io.*;
+import javax.servlet.ServletContext;
 
 /**
  *
  * @author You
  */
-public class UserData2 extends HttpServlet {
+public class jiyuuchou extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,33 +34,42 @@ public class UserData2 extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
-        final String result = "WEB-INF/jsp/UserData2Result.jsp";
         
-        String indexS = request.getParameter("bangou");
-        //Integer indexI = Integer.parseInt(indexS);
+        /*File txt = new File(test.getRealPath("test.txt"));//application.getRealPath("test.txt"));
+       // File txt = new File("C:/User/You/Desktop/text.txt");
         
-        ResultUserData2 data = new ResultUserData2();
-        data.setIndex(indexS);
-        request.setAttribute("Data",data);
+        FileReader fr = new FileReader(txt);
         
-        RequestDispatcher rd = request.getRequestDispatcher(result);
-        rd.forward(request,response);
+        BufferedReader br = new BufferedReader (fr);
         
+        out.println(br.readLine());
+        
+        br.close();
+        */
+        ServletContext application = this.getServletContext();
+        File txt = new File("C:/Users/You/Desktop/hosokawa/JavaNomalClass/src/java/org/mypackage/nomal/test.txt");//test.getRealPath("test.txt"));
+        FileReader fr = new FileReader(txt);
+        BufferedReader br = new BufferedReader (fr);
+        out.print(br.readLine());
+        out.print(application.getRealPath("text.txt"));
+        br.close();
         
         try {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserData2</title>");            
+            out.println("<title>Servlet jiyuuchou</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserData2 at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet jiyuuchou at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         } finally {
             out.close();
+            
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
