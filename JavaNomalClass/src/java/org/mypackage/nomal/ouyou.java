@@ -64,7 +64,7 @@ public class ouyou extends HttpServlet {
         FileWriter endfw = new FileWriter(logs,true);
         BufferedWriter endbw = new BufferedWriter(endfw);
         
-        endbw.write(sdt.format(nowtime) + "終了");
+        endbw.write(sdt.format(nowtime) + " 終了<br>");
         endbw.close();
         
         FileReader fr = new FileReader(logs);
