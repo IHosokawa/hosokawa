@@ -1,10 +1,9 @@
-package org.mypackage.Object1;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package org.mypackage.dba;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,12 +11,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.*;
 
 /**
  *
  * @author You
  */
-public class Object1_1_2 extends HttpServlet {
+public class DbAccess8_2 extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,29 +32,39 @@ public class Object1_1_2 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        //jspの入力データ受け取り初期処理
+        final String result = "org.mypackage.dbaccess/DbAccess8.jsp";
+        request.setCharacterEncoding("UTF-8");
+        String txt = request.getParameter("txtName");
         
-        //課題1
-        //人、家族、友達、仕事、名前、趣味、料理、服、音楽、乗り物、国
-        
-        //課題2
-        //人、料理、音楽、乗り物、国
-        
-        Object1_3 test = new Object1_3();
-        test.method();
-        //out.print(test.a+ " " + test.b);
-        
-        test.purint();
-        
-        Object1_4 test2 = new Object1_4();
-        test2.clean();
-        
-        //out.println("<br>" + test2.a + test2.b);
-        
-        
-        
+        //データベース呼び出し
+        Connection db_con = null;
+        PreparedStatement db_st = null;
+        ResultSet db_data = null;
         
         
         try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            db_con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Challenge_db","hosokawa","hosokawa");
+            db_st = db_con.prepareStatement("select * from profiles where name like ?");
+            db_st.setString(1,"%"+txt+"%");
+            db_data = db_st.executeQuery();
+            //request.setAttribute("data", db_data);
+            
+            while(db_data.next()){
+                out.println("ID　　　:" + db_data.getInt("profilesID") + "<br>");
+                out.println("名前　　:" + db_data.getString("name") + "<br>");
+                out.println("電話番号:" + db_data.getString("tell") + "<br>");
+                out.println("年齢　　:" + db_data.getInt("age") + "<br>");
+                out.println("生年月日:" + db_data.getDate("birthday") + "<br>");
+            }
+            db_con.close();
+            db_st.close();
+            db_data.close();
+        }catch (SQLException sql_e){
+            out.println("errer 1 :" + sql_e.toString());
+        }catch ( Exception e ){
+            out.println("errer 2 :" + e.toString());
         } finally {
             out.close();
         }
