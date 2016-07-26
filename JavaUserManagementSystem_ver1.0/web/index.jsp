@@ -1,4 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="jums.JumsHelper" %>
+<%@page import="jums.UserDataBeans" %>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -13,3 +15,4 @@
     <a href="" >検索(修正・削除)</a><br>
 </body>
 </html>
+    

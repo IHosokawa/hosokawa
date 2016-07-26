@@ -3,6 +3,7 @@ package jums;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,7 @@ public class InsertResult extends HttpServlet {
         
         //セッションスタート
         HttpSession session = request.getSession();
+        UserDataBeans udb = (UserDataBeans)session.getAttribute("udb");
         
         try{
             //*******課題2:直リンク防止用処理
@@ -41,12 +43,13 @@ public class InsertResult extends HttpServlet {
             //*******
             //ユーザー情報に対応したJavaBeansオブジェクトに格納していく
             UserDataDTO userdata = new UserDataDTO();
-            userdata.setName((String)session.getAttribute("name"));
+            userdata.setName((String)udb.getName());
             Calendar birthday = Calendar.getInstance();
+            birthday.set(udb.getYear(),udb.getMonth()-1,udb.getDay());
             userdata.setBirthday(birthday.getTime());
-            userdata.setType(Integer.parseInt((String)session.getAttribute("type")));
-            userdata.setTell((String)session.getAttribute("tell"));
-            userdata.setComment((String)session.getAttribute("comment"));
+            userdata.setType(udb.getType());
+            userdata.setTell(udb.getTell());
+            userdata.setComment(udb.getComment());
             
             //DBへデータの挿入
             UserDataDAO .getInstance().insert(userdata);

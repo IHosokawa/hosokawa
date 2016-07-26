@@ -21,7 +21,15 @@ public class UserDataBeans implements Serializable{
     private String tell;
     private String comment;
     
-    public UserDataBeans(){}
+    public UserDataBeans(){
+        this.name = "";
+        this.year = 0;
+        this.month = 0;
+        this.day = 0;
+        this.tell = "";
+        this.type = 1;
+        this.comment = "";
+    }
     
     public String getName(){
         return name;
