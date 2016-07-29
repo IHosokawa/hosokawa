@@ -1,9 +1,7 @@
 package jums;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.Date;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,12 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * insertresultと対応するサーブレット
- * フォームから入力された値をセッション経由で受け取り、データベースにinsertする
- * 直接アクセスした場合はerror.jspに振り分け
+ *
  * @author hayashi-s
  */
-public class InsertResult extends HttpServlet {
+public class Search extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,37 +25,7 @@ public class InsertResult extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        //セッションスタート
-        HttpSession session = request.getSession();
-        UserDataBeans udb = (UserDataBeans)session.getAttribute("udb");
-        
-        try{
-            //*******課題2:直リンク防止用処理
-            String accesschk = request.getParameter("ac");
-            if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
-                throw new Exception("不正なアクセスです");
-            }
-            //*******
-            //ユーザー情報に対応したJavaBeansオブジェクトに格納していく
-            UserDataDTO userdata = new UserDataDTO();
-            userdata.setName((String)udb.getName());
-            Calendar birthday = Calendar.getInstance();
-            birthday.set(udb.getYear(),udb.getMonth()-1,udb.getDay());
-            userdata.setBirthday(birthday.getTime());
-            userdata.setType(udb.getType());
-            userdata.setTell(udb.getTell());
-            userdata.setComment(udb.getComment());
-            
-            //DBへデータの挿入
-            UserDataDAO.getInstance().insert(userdata);
-            
-            request.getRequestDispatcher("/insertresult.jsp").forward(request, response);
-        }catch(Exception e){
-            //データ挿入に失敗したらエラーページにエラー文を渡して表示
-            request.setAttribute("error", e.getMessage());
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
-        }
+        request.getRequestDispatcher("/search.jsp").forward(request, response);  
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

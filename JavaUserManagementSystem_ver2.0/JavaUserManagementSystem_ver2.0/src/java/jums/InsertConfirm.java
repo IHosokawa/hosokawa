@@ -26,64 +26,36 @@ public class InsertConfirm extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        //セッションスタート
+        HttpSession session = request.getSession();
+        
         try{
-            HttpSession session = request.getSession();
-            request.setCharacterEncoding("UTF-8");//セッションに格納する文字コードをUTF-8に変更
+            request.setCharacterEncoding("UTF-8");//リクエストパラメータの文字コードをUTF-8に変更
+            
+            //アクセスルートチェック
             String accesschk = request.getParameter("ac");
             if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
                 throw new Exception("不正なアクセスです");
             }
             
-            //フォームからの入力を取得
-            String name = request.getParameter("name");
-            String year = request.getParameter("year");
-            String month = request.getParameter("month");
-            String day = request.getParameter("day");
-            String type = request.getParameter("type");
-            String tell = request.getParameter("tell");
-            String comment = request.getParameter("comment");
-
-            /*/セッションに格納
-            session.setAttribute("name", name);
-            session.setAttribute("year", year);
-            session.setAttribute("month",month);
-            session.setAttribute("day", day);
-            session.setAttribute("type", type);
-            session.setAttribute("tell", tell);
-            session.setAttribute("comment", comment);
-            System.out.println("Session updated!!");
-            */
-            
-            //UDBに格納
+            //フォームからの入力を取得して、JavaBeansに格納
             UserDataBeans udb = new UserDataBeans();
-            udb.setName(name);
-            udb.setYear(year);
-            udb.setMonth(month);
-            udb.setDay(day);
-            udb.setType(type);
-            udb.setTell(tell);
-            udb.setComment(comment);
-            
+            udb.setName(request.getParameter("name"));
+            udb.setYear(request.getParameter("year"));
+            udb.setMonth(request.getParameter("month"));
+            udb.setDay(request.getParameter("day"));
+            udb.setType(request.getParameter("type"));
+            udb.setTell(request.getParameter("tell"));
+            udb.setComment(request.getParameter("comment"));
+
+            //ユーザー情報群をセッションに格納
             session.setAttribute("udb", udb);
+            System.out.println("Session updated!!");
+            
             request.getRequestDispatcher("/insertconfirm.jsp").forward(request, response);
         }catch(Exception e){
-            String error = null;
-            if(request.getParameter("name").isEmpty()){
-                error = "名前が未入力です";
-            }else if(request.getParameter("year").isEmpty()){
-                error = "年が未入力です";
-            }else if(request.getParameter("month").isEmpty()){
-                error = "月が未入力です";
-            }else if(request.getParameter("day").isEmpty()){
-                error = "日が未入力です";
-            }else if(request.getParameter("type").isEmpty()){
-                error = "種別が未入力です";
-            }else if(request.getParameter("tell").isEmpty()){
-                error = "電話番号が未入力です";
-            }else if(request.getParameter("comment").isEmpty()){
-                error = "自己紹介が未入力です";
-            }
-            request.setAttribute("error", error);
+            request.setAttribute("error", e.getMessage());
             request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
             

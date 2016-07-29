@@ -1,22 +1,19 @@
 package jums;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.Date;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.*;
 
 /**
- * insertresultと対応するサーブレット
- * フォームから入力された値をセッション経由で受け取り、データベースにinsertする
- * 直接アクセスした場合はerror.jspに振り分け
+ *
  * @author hayashi-s
  */
-public class InsertResult extends HttpServlet {
+public class UpdateResult extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,34 +26,39 @@ public class InsertResult extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         
-        //セッションスタート
         HttpSession session = request.getSession();
-        UserDataBeans udb = (UserDataBeans)session.getAttribute("udb");
         
-        try{
-            //*******課題2:直リンク防止用処理
-            String accesschk = request.getParameter("ac");
-            if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
-                throw new Exception("不正なアクセスです");
-            }
-            //*******
-            //ユーザー情報に対応したJavaBeansオブジェクトに格納していく
-            UserDataDTO userdata = new UserDataDTO();
-            userdata.setName((String)udb.getName());
-            Calendar birthday = Calendar.getInstance();
-            birthday.set(udb.getYear(),udb.getMonth()-1,udb.getDay());
-            userdata.setBirthday(birthday.getTime());
-            userdata.setType(udb.getType());
-            userdata.setTell(udb.getTell());
-            userdata.setComment(udb.getComment());
+        try {
+            request.setCharacterEncoding("UTF-8");//リクエストパラメータの文字コードをUTF-8に変更
             
-            //DBへデータの挿入
-            UserDataDAO.getInstance().insert(userdata);
+            UserDataBeans udb = new UserDataBeans();
+            udb.setName(request.getParameter("name"));
+            udb.setYear(request.getParameter("year"));
+            udb.setMonth(request.getParameter("month"));
+            udb.setDay(request.getParameter("day"));
+            udb.setType(request.getParameter("type"));
+            udb.setTell(request.getParameter("tell"));
+            udb.setComment(request.getParameter("comment"));
+
+            //更新データをセッションに格納
+            session.setAttribute("resultData", udb);
+            System.out.println("Session updated!!");
             
-            request.getRequestDispatcher("/insertresult.jsp").forward(request, response);
+            //更新データをDB用パラメータに変換
+            UserDataDTO udd = new UserDataDTO();
+            udb.UD2DTOMapping(udd);
+            
+            UserDataDAO.getInstance().update(udd);
+            
+            request.getRequestDispatcher("/updateresult.jsp").forward(request, response);
+        }catch(SQLException sql_e){
+            //何らかの理由で失敗したらエラーページにエラー文を渡して表示。想定は不正なアクセスとDBエラー
+            request.setAttribute("error", sql_e.getMessage());
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         }catch(Exception e){
-            //データ挿入に失敗したらエラーページにエラー文を渡して表示
             request.setAttribute("error", e.getMessage());
             request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
