@@ -39,10 +39,6 @@ public class Update extends HttpServlet {
             if ( acChk == null || (Integer)session.getAttribute("ac") != (Integer)Integer.parseInt(acChk)){
                 out.println("不正なアクセスです");
             }
-            //session.getAttribute("resultData");
-            //UserDataBeans udb = (UserDataBeans)session.getAttribute("resultData");
-            
-            //request.setAttribute("Existing", session.getAttribute(""));
             request.getRequestDispatcher("/update.jsp").forward(request, response);
         }catch(Exception e){
             //何らかの理由で失敗したらエラーページにエラー文を渡して表示。想定は不正なアクセスとDBエラー

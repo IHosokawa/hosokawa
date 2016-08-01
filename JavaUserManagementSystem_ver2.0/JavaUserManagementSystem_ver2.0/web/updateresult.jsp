@@ -3,7 +3,7 @@
         import="javax.servlet.http.HttpSession" %>
 <%
     JumsHelper jh = JumsHelper.getInstance();
-    UserDataBeans udb = (UserDataBeans)session.getAttribute("resultData");
+    UserDataBeans udb = (UserDataBeans)session.getAttribute("detailData");
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -20,7 +20,9 @@
         電話番号:<%=udb.getTell()%><br>
         自己紹介:<%=udb.getComment()%><br>
         以上の内容で登録しました。<br>
-    </body>
-    <%=jh.home()%>
+        <form action="ResultDetail?id=<%=udb.getUserID()%>" method="POST">
+            <input type="submit" name="NO" value="詳細画面へ戻る">
+        </form>
+        <%=jh.home()%>
     </body>
 </html>

@@ -1,8 +1,12 @@
 <%@page import="jums.JumsHelper"
-        import="jums.UserDataBeans" %>
+        import="jums.UserDataBeans"
+        import="java.util.ArrayList"
+        import="java.util.Date"
+        import="java.text.SimpleDateFormat"%>
 <%
     JumsHelper jh = JumsHelper.getInstance();
-    UserDataBeans udb = (UserDataBeans)session.getAttribute("resultData");
+    ArrayList al = (ArrayList)session.getAttribute("resultData");
+    UserDataBeans udb = null;
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -20,12 +24,18 @@
                 <th>種別</th>
                 <th>登録日時</th>
             </tr>
-            <tr>
-                <td><a href="ResultDetail?id=<%= udb.getUserID()%>"><%= udb.getName()%></a></td>
-                <td><%= udb.getYear()%></td>
-                <td><%= udb.getType()%></td>
-                <td><%= udb.getDate()%></td>
-            </tr>
+            <%if(al.size() != 0){
+                for(int i = 0;i < al.size();i++){
+                    udb = (UserDataBeans)al.get(i);%>
+                    <tr>
+                        <td><a href="ResultDetail?id=<%= udb.getUserID()%>"><%= udb.getName()%></a></td>
+                        <td><%= udb.getYear()%></td>
+                        <td><%= jh.exTypenum(udb.getType())%></td>
+                        <td><%= udb.getDate()%></td>
+                    </tr>
+            <%}}else{%>
+                データが存在しません。
+            <%}%>
         </table>
     </body>
     <%=jh.home()%>

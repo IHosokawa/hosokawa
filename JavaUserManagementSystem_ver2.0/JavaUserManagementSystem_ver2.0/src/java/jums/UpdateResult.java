@@ -34,7 +34,14 @@ public class UpdateResult extends HttpServlet {
         try {
             request.setCharacterEncoding("UTF-8");//リクエストパラメータの文字コードをUTF-8に変更
             
+            //アクセスルートチェック
+            String accesschk = request.getParameter("ac");
+            if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
+                throw new Exception("不正なアクセスです");
+            }
+            
             UserDataBeans udb = new UserDataBeans();
+            udb.setUserID(Integer.parseInt(request.getParameter("userID")));
             udb.setName(request.getParameter("name"));
             udb.setYear(request.getParameter("year"));
             udb.setMonth(request.getParameter("month"));
@@ -44,7 +51,7 @@ public class UpdateResult extends HttpServlet {
             udb.setComment(request.getParameter("comment"));
 
             //更新データをセッションに格納
-            session.setAttribute("resultData", udb);
+            session.setAttribute("detailData", udb);
             System.out.println("Session updated!!");
             
             //更新データをDB用パラメータに変換

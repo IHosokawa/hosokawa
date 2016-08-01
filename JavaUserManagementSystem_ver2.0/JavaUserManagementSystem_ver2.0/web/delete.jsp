@@ -1,8 +1,9 @@
 <%@page import="jums.JumsHelper"
-        import="jums.UserDataDTO" %>
+        import="jums.UserDataBeans" %>
 <%
     JumsHelper jh = JumsHelper.getInstance();
-    UserDataDTO udd = (UserDataDTO)request.getAttribute("resultData");
+    HttpSession hs = request.getSession();
+    UserDataBeans udb = (UserDataBeans)session.getAttribute("detailData");
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -13,19 +14,20 @@
     </head>
     <body>
     <h1>削除確認</h1>
-    以下の内容を削除します。よろしいですか？
-    名前:<%= udd.getName()%><br>
-    生年月日:<%= udd.getBirthday()%><br>
-    種別:<%= udd.getType()%><br>
-    電話番号:<%= udd.getTell()%><br>
-    自己紹介:<%= udd.getComment()%><br>
-    登録日時:<%= udd.getNewDate()%><br>
-    
-    <form action="DeleteResult" method="POST">
-      <input type="submit" name="YES" value="はい"style="width:100px">
+    このレコードを本当に削除しますか？<br>
+    ユーザーID:<%= udb.getUserID()%><br>
+    名前:<%= udb.getName()%><br>
+    生年月日:<%=udb.getYear()%>/<%=udb.getMonth()%>/<%=udb.getDay()%><br>
+    種別:<%= jh.exTypenum(udb.getType())%><br>
+    電話番号:<%= udb.getTell()%><br>
+    自己紹介:<%= udb.getComment()%><br>
+    登録日時:<%= udb.getDate()%><br>
+    <form action="http://localhost:8080/JavaUserManagementSystem_ver2.0/DeleteResult" method="POST">
+        <input type="hidden" name="ac" value="<%=hs.getAttribute("ac")%>">
+        <input type="submit" name="YES" value="はい"style="width:100px">
     </form><br>
-    <form action="ResultDetail" method="POST">
-      <input type="submit" name="NO" value="詳細画面に戻る"style="width:100px">
+    <form action="http://localhost:8080/JavaUserManagementSystem_ver2.0/ResultDetail?id=<%= udb.getUserID()%>" method="POST">
+        <input type="submit" name="NO" value="いいえ"style="width:100px">
     </form>
     </body>
 </html>

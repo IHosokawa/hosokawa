@@ -36,9 +36,10 @@ public class ResultDetail extends HttpServlet {
             //DTOオブジェクトにuserIDによる検索結果を保存。
             UserDataDTO resultData = UserDataDAO .getInstance().searchByID(searchData);
             
+            //UDB形式にマッピングしてセッションに保存。
             UserDataBeans searchDataUdb = new UserDataBeans();
             searchDataUdb.DTO2UDMapping(resultData);
-            session.setAttribute("resultData", searchDataUdb);
+            session.setAttribute("detailData", searchDataUdb);
             
             request.getRequestDispatcher("/resultdetail.jsp").forward(request, response);  
         }catch(Exception e){

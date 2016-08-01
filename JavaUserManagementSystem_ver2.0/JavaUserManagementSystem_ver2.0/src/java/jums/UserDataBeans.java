@@ -24,6 +24,7 @@ public class UserDataBeans implements Serializable{
     private Date date;
     
     public UserDataBeans(){
+        this.userID = 0;
         this.name = "";
         this.year = 0;
         this.month = 0;
@@ -156,7 +157,9 @@ public class UserDataBeans implements Serializable{
         return chkList;
     }
 
+    //データをDTO形式へ変換
     public void UD2DTOMapping(UserDataDTO udd){
+        udd.setUserID(this.userID);
         udd.setName(this.name);
         if(this.year != 0 || this.month != 0 || this.day != 0){
             Calendar birthday = Calendar.getInstance();

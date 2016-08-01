@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 /**
  *
@@ -30,23 +31,40 @@ public class SearchResult extends HttpServlet {
         HttpSession session = request.getSession();
         
         try{
+            
             request.setCharacterEncoding("UTF-8");//リクエストパラメータの文字コードをUTF-8に変更
-        
-            //フォームからの入力を取得して、JavaBeansに格納
             UserDataBeans udb = new UserDataBeans();
-            udb.setName(request.getParameter("name"));
-            udb.setYear(request.getParameter("year"));
-            udb.setType(request.getParameter("type"));
-
+            //updateresultから来た場合はresultにRESULTが入る
+            if(request.getParameter("result") == null || 
+                !request.getParameter("result").equals("RESULT")){
+                //フォームからの入力を取得して、JavaBeansに格納
+                udb.setName(request.getParameter("name"));
+                udb.setYear(request.getParameter("year"));
+                udb.setType(request.getParameter("type"));
+                
+                //検索情報をセッションに保存
+                session.setAttribute("searchData", udb);
+            }else{
+                //検索情報をudbへ格納
+                udb = (UserDataBeans)session.getAttribute("searchData");
+            }
             //フォームから受け取った情報を元に
             //DTOオブジェクトにマッピング。DB専用のパラメータに変換
             UserDataDTO searchData = new UserDataDTO();
             udb.UD2DTOMapping(searchData);
-            
-            //DTOオブジェクトにサーチ結果を呼び出す
-            UserDataDTO resultData = UserDataDAO .getInstance().search(searchData);
-            udb.DTO2UDMapping(resultData);
-            session.setAttribute("resultData", udb);
+
+            //ArrayListにサーチ結果を呼び出す
+            ArrayList resultDataDTO =new ArrayList();
+            resultDataDTO = UserDataDAO .getInstance().search(searchData);
+
+            ArrayList resultDataUDB = new ArrayList();
+            for(int i = 0;i < resultDataDTO.size();i++){
+                UserDataBeans udbR = new UserDataBeans();
+                udbR.DTO2UDMapping((UserDataDTO)resultDataDTO.get(i));
+                resultDataUDB.add(udbR);
+            }
+
+            session.setAttribute("resultData", resultDataUDB);
             
             request.getRequestDispatcher("/searchresult.jsp").forward(request, response);  
         }catch(Exception e){
