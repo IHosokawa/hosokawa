@@ -47,7 +47,7 @@ public class Search extends HttpServlet {
      */
     String APP_ID = "dj0zaiZpPUNXM3RheG1KSW9GTyZzPWNvbnN1bWVyc2VjcmV0Jng9Mjk-";
 
-    /**
+    /** 
      * Yahoo!ショッピングAPIのベースURI
      */
     String BASE_URI = "http://shopping.yahooapis.jp/ShoppingWebService/V1/json/itemSearch";
