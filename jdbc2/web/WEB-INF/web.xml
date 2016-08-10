@@ -12,6 +12,18 @@
         <servlet-name>DbAccess9_2</servlet-name>
         <servlet-class>org.mypackage.dba.DbAccess9_2</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DbAccess10_2</servlet-name>
+        <servlet-class>org.mypackage.dba.DbAccess10_2</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DbAccess11_2</servlet-name>
+        <servlet-class>org.mypackage.dba.DbAccess11_2</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ResultDbAccess11_2</servlet-name>
+        <servlet-class>org.mypackage.dba.ResultDbAccess11_2</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DbAccess8_2</servlet-name>
         <url-pattern>/DbAccess8_2</url-pattern>
@@ -23,6 +35,18 @@
     <servlet-mapping>
         <servlet-name>DbAccess9_2</servlet-name>
         <url-pattern>/DbAccess9_2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DbAccess10_2</servlet-name>
+        <url-pattern>/DbAccess10_2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DbAccess11_2</servlet-name>
+        <url-pattern>/DbAccess11_2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ResultDbAccess11_2</servlet-name>
+        <url-pattern>/ResultDbAccess11_2</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

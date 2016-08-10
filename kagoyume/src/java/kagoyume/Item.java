@@ -1,20 +1,22 @@
-package jums;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package kagoyume;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.ResultSet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-
 /**
  *
- * @author hayashi-s
+ * @author You
  */
-public class SearchResult extends HttpServlet {
+public class Item extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -27,54 +29,21 @@ public class SearchResult extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
-        
-        try{
-            
+        try {
             request.setCharacterEncoding("UTF-8");//リクエストパラメータの文字コードをUTF-8に変更
-            UserDataBeans udb = new UserDataBeans();
-            //updateresultから来た場合はresultにRESULTが入る
-            if(request.getParameter("result") == null || 
-                !request.getParameter("result").equals("RESULT")){
-                //フォームからの入力を取得して、JavaBeansに格納
-                udb.setName(request.getParameter("name"));
-                udb.setYear(request.getParameter("year"));
-                udb.setType(request.getParameter("type"));
-                
-                //検索情報をセッションに保存
-                session.setAttribute("searchData", udb);
-            }else{
-                //検索情報をudbへ格納
-                udb = (UserDataBeans)session.getAttribute("searchData");
-            }
-            //フォームから受け取った情報を元に
-            //DTOオブジェクトにマッピング。DB専用のパラメータに変換
-            UserDataDTO searchData = new UserDataDTO();
-            udb.UD2DTOMapping(searchData);
-
-            //ArrayListにサーチ結果を呼び出す
-            ArrayList resultDataDTO =new ArrayList();
-            resultDataDTO = UserDataDAO .getInstance().search(searchData);
-
-            ArrayList resultDataUDB = new ArrayList();
+            //クリックされたアイテムのIDをセッションへ保存
+            String itemID = request.getParameter("id");
+            session.setAttribute("DetailId",itemID);
             
-                UserDataBeans udbR = new UserDataBeans();
-            for(int i = 0;i < resultDataDTO.size();i++){
-                udbR.DTO2UDMapping((UserDataDTO)resultDataDTO.get(i));
-                resultDataUDB.add(udbR);
-            }
-
-            session.setAttribute("resultData", resultDataUDB);
-            
-            request.getRequestDispatcher("/searchresult.jsp").forward(request, response);  
+            request.getRequestDispatcher("/item.jsp").forward(request, response);
         }catch(Exception e){
-            //何らかの理由で失敗したらエラーページにエラー文を渡して表示。想定は不正なアクセスとDBエラー
-            request.setAttribute("error", e.getMessage());
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            out.println(e.getMessage());
+        } finally {
+            out.close();
         }
-        
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

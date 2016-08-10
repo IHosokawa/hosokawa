@@ -12,14 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.*;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  *
  * @author You
  */
-public class DbAccess9_2 extends HttpServlet {
+public class DbAccess10_2 extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,50 +32,28 @@ public class DbAccess9_2 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        
         request.setCharacterEncoding("UTF-8");
-        //DB接続
-        Connection db_con = null;
-        PreparedStatement db_st = null;
-        ResultSet db_data = null;
-        //値受け取り
-        String id = request.getParameter("profilesID");
-        String name = request.getParameter("txtName");
-        String tell = request.getParameter("tell");
-        String age = request.getParameter("age");
-        //取得した日付をDate型へ
-        Calendar cal = Calendar.getInstance();
-        cal.set(Integer.parseInt(request.getParameter("year")), 
-                Integer.parseInt(request.getParameter("month"))-1, 
-                Integer.parseInt(request.getParameter("day")));
-        Date birth = cal.getTime();
-        //String型をInt型へ
-        Integer idi = Integer.parseInt(id);
-        Integer agei = Integer.parseInt(age);
+        
+        Connection con = null;
+        PreparedStatement ps = null;
+        
         
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            db_con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Challenge_db","hosokawa","hosokawa");
-            db_st = db_con.prepareStatement("insert into profiles values (?,?,?,?,?)");
-            db_st.setInt(1, idi);
-            db_st.setString(2, name);
-            db_st.setString(3, tell);
-            db_st.setInt(4,agei);
-            db_st.setDate(5, new java.sql.Date(birth.getTime()));
-            db_st.executeUpdate();
-            db_st = db_con.prepareStatement("select * from profiles where profilesID=?");
-            db_st.setInt(1, idi);
-            db_data = db_st.executeQuery();
-            db_data.next();
-            out.println("ID     :" + db_data.getInt("profilesID") + "<br>");
-            out.println("名前    :" + db_data.getString("name") + "<br>");
-            out.println("電話番号:" + db_data.getString("tell") + "<br>");
-            out.println("年齢    :" + db_data.getInt("age") + "<br>");
-            out.println("生年月日:" + db_data.getDate("birthday") + "<br>");
+            String profID = request.getParameter("profilesID");
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Challenge_db","hosokawa","hosokawa");
+            ps = con.prepareStatement("DELETE FROM profiles WHERE profilesID=?");
+            ps.setInt(1, Integer.parseInt(profID));
+            ps.executeUpdate();
             
+            con.close();
+            ps.close();
+            out.println("Success!!");
         }catch (SQLException sql_e){
-            out.println("errer1:"+sql_e.toString());
+            out.println("sql error:"+sql_e.getMessage());
         }catch (Exception e){
-            out.println("errer2:" + e.toString());
+            out.println("error:"+e.getMessage());
         } finally {
             out.close();
         }
